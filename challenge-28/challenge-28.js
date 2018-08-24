@@ -1,3 +1,5 @@
+  (function(win, doc){
+    'use strict';
   /*
   No HTML:
   - Crie um formulário com um input de texto que receberá um CEP e um botão
@@ -25,3 +27,141 @@
   - Utilize a lib DOM criada anteriormente para facilitar a manipulação e
   adicionar as informações em tela.
   */
+  function DOM(elements){
+    this.element = document.querySelectorAll(elements);
+   };
+
+   
+   DOM.prototype.on = function on(eventType, callback){
+    Array.prototype.forEach.call(this.element, function(element){
+      element.addEventListener(eventType, callback, false);
+    });
+   };
+   DOM.prototype.off = function off(eventType, callback){
+    Array.prototype.forEach.call(this.element, function(element){
+      element.removeEventListener(eventType, callback, false);
+    });
+   };
+   DOM.prototype.get = function get(){
+    return this.element;
+   };
+
+   DOM.prototype.forEach = function forEach() {
+    return Array.prototype.forEach.apply( this.element, arguments );
+   };
+
+   DOM.prototype.map = function map(){
+    return Array.prototype.map.apply(this.element, arguments);
+   };
+
+   DOM.prototype.filter = function filer(){
+    return Array.prototype.filter.apply(this.element, arguments);
+   };
+
+   DOM.prototype.reduce = function reduce(){
+    return Array.prototype.reduce.apply(this.element, arguments)
+   };
+
+   DOM.prototype.reduceRight = function reduceRight(){
+    return Array.prototype.reduceRight.apply(this.element, arguments);
+   };
+
+  DOM.prototype.every = function every(){
+    return Array.prototype.every.apply(this.element, arguments);
+  };
+
+  DOM.prototype.some = function some(){
+    return Array.prototype.some.apply(this.element, arguments);
+  };   
+
+  DOM.prototype.isArray = function isArray( param){
+    return Object.prototype.toString.call(param) === '[object Array]';
+  }
+
+  DOM.prototype.isFunction = function isFunction( param){
+    return Object.prototype.toString.call(param) === '[object Function]';
+  }
+
+  DOM.prototype.isObject = function isObject( param){
+    return Object.prototype.toString.call(param) === '[object Object]';
+  }
+
+  DOM.prototype.isNumber = function isNumber( param){
+    return Object.prototype.toString.call(param) === '[object Number]';
+  }
+
+  DOM.prototype.isString = function isString( param){
+    return Object.prototype.toString.call(param) === '[object String]';
+  }
+
+  DOM.prototype.isBoolean = function isBoolean( param){
+    return Object.prototype.toString.call(param) === '[object Boolean]';
+  }
+
+  DOM.prototype.isNull = function isNull( param){
+    return Object.prototype.toString.call(param) === '[object Undefined]';
+  }
+  var ajax = new XMLHttpRequest();
+  var $formCEP = new DOM('[data-js="form-cep"]');
+  var $inputCEP = new DOM('[data-js="input-cep"]');
+  $formCEP.on('submit', handleSubmitFormCEP);
+  console.log($formCEP);
+
+  function handleSubmitFormCEP(event){
+    event.preventDefault();
+    var url = getUrl();
+    ajax.open('GET', url);
+    ajax.send();
+    ajax.addEventListener('readystatechange', handleReadyStateChange);
+  }
+
+  function getUrl(){
+    return 'https://viacep.com.br/ws/[CEP]/json'.replace('[CEP]', $inputCEP.get()[0].value.replace(/\D/g, ''));
+    
+  }
+
+  function handleReadyStateChange(){
+    if( isResquestOk() )
+      fillCEPFields(); //console.log('formulario populado', ajax.responseText);
+  }
+
+  function isResquestOk(){
+    return ajax.readyState == 4 && ajax.status == 200;
+  }
+
+  function fillCEPFields(){
+    var data = parseData();
+    var $logradouro = new DOM('[data-js="logradouro"]');
+    var $bairro = new DOM('[data-js="bairro"]');
+    var $estado = new DOM('[data-js="estado"]');
+    var $cidade = new DOM('[data-js="cidade"]');
+    var $cep = new DOM('[data-js="cep"]');
+    $logradouro.get()[0].textContent = data.logradouro;
+    $bairro.get()[0].textContent = data.bairro;
+    $estado.get()[0].textContent = data.uf;
+    $cidade.get()[0].textContent = data.localidade;
+    $cep.get()[0].textContent = data.cep;
+
+    console.log(data);
+  }
+
+  function parseData(){
+    var result;
+    try{
+      result = JSON.parse(ajax.responseText);
+    }
+    catch(e){
+      result = null;
+    }
+    return result;
+  }
+
+  function getMessage(type){
+
+    return {
+      'loading': 'Buscando informações para o CEP [CEP]...',
+      'ok': 'Endereço referente ao CEP [CEP]:',
+      'error': 'Não encontramos o endereço para o CEP [CEP].'
+    }[type];
+  }
+})(window, document);
