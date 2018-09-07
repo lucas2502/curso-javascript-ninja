@@ -122,9 +122,7 @@ function app(){
 
     $status.get()[0].textContent = messages[type];
   }
-
-  window.DOM = DOM;
 }
 
   app(); 
-})(window, document);
+})(window.DOM, document);
