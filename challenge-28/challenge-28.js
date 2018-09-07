@@ -118,7 +118,7 @@ function app(){
   function replaceCEP(message){
     var cep = clearCEP();
     return message.replace('[CEP]', cep);
-  }
+  } 
 
     $status.get()[0].textContent = messages[type];
   }

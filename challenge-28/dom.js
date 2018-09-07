@@ -76,4 +76,4 @@
     return Object.prototype.toString.call(param) === '[object Undefined]';
   }
    
-})(window.DOM,document);
+})(window.DOM,document); 
