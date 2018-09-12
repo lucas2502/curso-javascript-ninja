@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<title>Challenge-29</title>
+	<style type="text/css">
+		ul{
+			list-style-type: none;
+		}
+		button{
+			background-color: green;
+			color: #fff;
+		}
+		button:hover{
+			opacity: 0.8;
+		}
+		form, table{
+			float: left;
+			width: 50%;
+			display: inline-flex;
+		}
+
+		table{
+			border-collapse: collapse;
+
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1><span data-js="company-name"></span> - 
+			<span data-js="company-phone"></span>
+		</h1>
+	</header>
+
+	<form action="/" data-js="form-register">
+		<ul>
+			<li>
+				<label>Imagem do carro:</label><br>
+				<input type="url" name="car" data-js="image">
+			</li>
+			<li>
+				<label>Marca / Modelo:</label><br>
+				<input type="text" name="brand-model" data-js="brand-model">
+			</li>
+			<li>
+				<label>Ano:</label><br>
+				<input type="text" name="year" data-js="year">
+			</li>
+			<li>
+				<label>Placa</label><br>
+				<input type="text" name="plate" data-js="plate">
+			</li>
+			<li>
+				<label>Cor:</label><br>
+				<input type="text" name="color" data-js="color">
+			</li>
+			<li>
+				<br><br><button type="submit">CADASTRAR</button>	
+			</li>	
+		</ul>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Imagem do carro</th>
+					<th>Marca / Modelo</th>
+					<th>Ano</th>
+					<th>Placa</th>
+					<th>Cor</th>
+				</tr>
+			</thead>
+		</table>
+		
+		<tbody data-js="table-car">
+			
+		</tbody>
+	</form>
+	<script src="dom.js"></script>
+	<script src="challenge-29.js"></script>
+</body>
+</html>

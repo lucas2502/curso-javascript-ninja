@@ -1,4 +1,4 @@
-(function() {
+(function(DOM) {
   'use strict';
 
   /*
@@ -36,4 +36,52 @@
   que será nomeado de "app".
   */
 
-})();
+  function app(){
+
+    return {
+      init: function init(){
+        console.log('app init');
+        this.companyInfo();
+        this.initEvents();
+      },
+
+      initEvents: function initEvents(){
+        DOM('[data-js="form-register"]').on('submit', this.handleSubmit); 
+      },
+
+      handleSubmit: function handleSubmit(e){
+        e.preventDefault();
+        console.log('submit');
+      },
+
+      companyInfo: function companyInfo(){
+        var ajax =  new XMLHttpRequest();
+        ajax.open('GET', '/company.json', true);
+        ajax.send();
+        ajax.addEventListener('readystatechange', this.getCompanyInfo, false);
+      },
+
+      getCompanyInfo: function getCompanyInfo(){
+        if(!app().isReady.call(this))
+            return;
+
+        var data = JSON.parse(this.responseText);
+        var $companyName = new DOM('[data-js="company-name"]').get();
+        var $companyPhone = new DOM('[data-js="company-phone"]').get();
+
+        $companyName.textContent = data.name;
+        $companyPhone.textContent = data.phone;
+
+      },
+
+      isReady: function(){
+        return this.readyState == 4 && this.status == 200;
+      }
+    };
+  }
+
+  app().init();
+
+  console.log(new DOM('input'));
+
+})(window.DOM);
