@@ -60,12 +60,16 @@
         var $fragment = document.creatDocumentFragment();
         var $tr = document.creatElement('tr');
         var $tdImage = document.creatElement('td');
+        var $image = document.creatElement('img');
         var $tdBrand = document.creatElement('td');
         var $tdYear = document.creatElement('td');
         var $tdPlate = document.creatElement('td');
         var $tdColor = document.creatElement('td');
 
-        $tdImage.textContent = DOM('[data-js="image"]').get().value;
+        $image.src = DOM('[data-js="image"]').get().value; 
+        $tdImage.appendChild($image);
+
+        //$tdImage.textContent = DOM('[data-js="image"]').get().value;
         $tdBrand.textContent = DOM('[data-js="brand-model"]').get().value;
         $tdYear.textContent = DOM('[data-js="year"]').get().value;
         $tdPlate.textContent = DOM('[data-js="plate"]').get().value;
@@ -76,7 +80,7 @@
         $tr.appendChild($tdYEar);
         $tr.appendChild($tdPlate);
         $tr.appendChild($tdColor);
-        
+
         return $fragment.appendChild($tr);
       },
 
