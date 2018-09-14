@@ -36,7 +36,7 @@
   que será nomeado de "app".
   */
 
-  function app(){
+  var app = (function(){
 
     return {
       init: function init(){
@@ -52,6 +52,32 @@
       handleSubmit: function handleSubmit(e){
         e.preventDefault();
         console.log('submit');
+        var $tableCar = DOM('[data-js="table-car"]').get();
+        $tableCar.appendChild(app.createNewCar());
+      },
+
+      createNewCar: function createNewCar(){
+        var $fragment = document.creatDocumentFragment();
+        var $tr = document.creatElement('tr');
+        var $tdImage = document.creatElement('td');
+        var $tdBrand = document.creatElement('td');
+        var $tdYear = document.creatElement('td');
+        var $tdPlate = document.creatElement('td');
+        var $tdColor = document.creatElement('td');
+
+        $tdImage.textContent = DOM('[data-js="image"]').get().value;
+        $tdBrand.textContent = DOM('[data-js="brand-model"]').get().value;
+        $tdYear.textContent = DOM('[data-js="year"]').get().value;
+        $tdPlate.textContent = DOM('[data-js="plate"]').get().value;
+        $tdColor.textContent = DOM('[data-js="color"]').get().value;
+
+        $tr.appendChild($tdImage);
+        $tr.appendChild($tdBrand);
+        $tr.appendChild($tdYEar);
+        $tr.appendChild($tdPlate);
+        $tr.appendChild($tdColor);
+        
+        return $fragment.appendChild($tr);
       },
 
       companyInfo: function companyInfo(){
@@ -62,7 +88,7 @@
       },
 
       getCompanyInfo: function getCompanyInfo(){
-        if(!app().isReady.call(this))
+        if(!app.isReady.call(this))
             return;
 
         var data = JSON.parse(this.responseText);
@@ -78,9 +104,9 @@
         return this.readyState == 4 && this.status == 200;
       }
     };
-  }
+  })();
 
-  app().init();
+  app.init();
 
   console.log(new DOM('input'));
 
